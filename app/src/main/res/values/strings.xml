@@ -22,6 +22,7 @@
     <string name="to_cart">Kosárba</string>
     <string name="delete">Törlés</string>
     <string name="bg_image">BG_IMAGE</string>
+    <string name="bejelentkez_s">Bejelentkezés</string>
 
     <string-array name="phone_labels">
         <item>Otthon</item>
