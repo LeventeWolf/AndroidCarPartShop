@@ -35,9 +35,9 @@
         android:ems="10"
         app:backgroundTint="@color/black"
         android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColorHint="@color/black"
         tools:layout_editor_absoluteX="16dp" />
 
     <EditText

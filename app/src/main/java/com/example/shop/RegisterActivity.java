@@ -1,9 +1,14 @@
 package com.example.shop;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = RegisterActivity.class.getName();
     private static final String PREF_KEY = RegisterActivity.class.getPackage().toString();
 
@@ -93,5 +98,21 @@ public class RegisterActivity extends AppCompatActivity {
     private void startShopping(/* registered used class */) {
         Intent intent = new Intent(this, ShopListActivity.class);
         startActivity(intent);
+    }
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        return new RandomLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
     }
 }
