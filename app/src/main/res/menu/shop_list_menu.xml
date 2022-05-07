@@ -31,11 +31,4 @@
         android:title="Kijelentkezés"
         android:orderInCategory="2">
     </item>
-    <item
-        android:id="@+id/settings_button"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_settings"
-        android:title="Beállítás"
-        android:orderInCategory="1">
-    </item>
 </menu>

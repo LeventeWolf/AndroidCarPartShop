@@ -8,6 +8,7 @@ import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,6 +75,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
         String password = passwordEditText.getText().toString();
         String passwordConfirm = passwordConfirmEditText.getText().toString();
 
+        if (userName.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
+            popToast("Töltse ki a mezőket!", Toast.LENGTH_SHORT);
+            return;
+        }
+
         if (!password.equals(passwordConfirm)) {
             Log.e(LOG_TAG, "Nem egyenlő a jelszó és a megerősítése.");
             return;
@@ -115,5 +121,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+
+    private void popToast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
+        toast.show();
+    }
+
+    private void popToast(String message, int duration) {
+        Toast toast = Toast.makeText(this, message, duration);
+        toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
+        toast.show();
     }
 }

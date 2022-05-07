@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -31,8 +32,8 @@ import android.widget.Toast;
 
 import com.example.shop.AlarmReceiver;
 import com.example.shop.Model.CarPart;
-import com.example.shop.NotificationHelper;
-import com.example.shop.NotificationJobService;
+import com.example.shop.Notification.NotificationHelper;
+import com.example.shop.Notification.NotificationJobService;
 import com.example.shop.R;
 import com.example.shop.ShoppingItemAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,27 +81,14 @@ public class ShopListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop_list);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
-            Log.d(LOG_TAG, "Authenticated user!");
-        } else {
+        if (user == null) {
             Log.d(LOG_TAG, "Unauthenticated user!");
             finish();
         }
 
-        // preferences = getSharedPreferences(PREF_KEY, MODE_PRIVATE);
-        // if(preferences != null) {
-        //     cartItems = preferences.getInt("cartItems", 0);
-        //     gridNumber = preferences.getInt("gridNum", 1);
-        // }
-
-        // recycle view
         mRecyclerView = findViewById(R.id.recyclerView);
-        // Set the Layout Manager.
-        mRecyclerView.setLayoutManager(new GridLayoutManager(
-                this, gridNumber));
-        // Initialize the ArrayList that will contain the data.
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gridNumber));
         mItemsData = new ArrayList<>();
-        // Initialize the adapter and set it to the RecyclerView.
         mAdapter = new ShoppingItemAdapter(this, mItemsData);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -145,19 +133,12 @@ public class ShopListActivity extends AppCompatActivity {
     };
 
     private void initializeData() {
-        // Get the resources from the XML file.
-        String[] itemsList = getResources()
-                .getStringArray(R.array.shopping_item_names);
-        String[] itemsInfo = getResources()
-                .getStringArray(R.array.shopping_item_desc);
-        String[] itemsPrice = getResources()
-                .getStringArray(R.array.shopping_item_price);
-        TypedArray itemsImageResources =
-                getResources().obtainTypedArray(R.array.shopping_item_images);
+        String[] itemsList = getResources().getStringArray(R.array.shopping_item_names);
+        String[] itemsInfo = getResources().getStringArray(R.array.shopping_item_desc);
+        String[] itemsPrice = getResources().getStringArray(R.array.shopping_item_price);
+        TypedArray itemsImageResources = getResources().obtainTypedArray(R.array.shopping_item_images);
         TypedArray itemRate = getResources().obtainTypedArray(R.array.shopping_item_rates);
 
-        // Create the ArrayList of Sports objects with the titles and
-        // information about each sport.
         for (int i = 0; i < itemsList.length; i++) {
             mItems.add(new CarPart(
                  itemsList[i],
@@ -168,8 +149,9 @@ public class ShopListActivity extends AppCompatActivity {
                  0));
         }
 
-        // Recycle the typed array.
         itemsImageResources.recycle();
+
+        popToast("Termékek újratöltve!");
     }
 
     private void queryData() {
@@ -194,16 +176,17 @@ public class ShopListActivity extends AppCompatActivity {
 
     public void deleteItem(CarPart item) {
         DocumentReference ref = mItems.document(item._getId());
-        ref.delete()
-            .addOnSuccessListener(success -> {
-                Log.d(LOG_TAG, "Item is successfully deleted: " + item._getId());
-            })
-            .addOnFailureListener(fail -> {
-                Toast.makeText(this, "Item " + item._getId() + " cannot be deleted.", Toast.LENGTH_LONG).show();
-            });
+        ref.delete().addOnSuccessListener(success -> popToast(item.getName() + " sikeresen törölve!"))
+                    .addOnFailureListener(fail -> popToast("HIBA " + item.getName() + " törlése során!"));
 
         queryData();
         mNotificationHelper.cancel();
+    }
+
+    private void popToast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
+        toast.show();
     }
 
     @Override
@@ -233,11 +216,6 @@ public class ShopListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.log_out_button:
                 Log.d(LOG_TAG, "Logout clicked!");
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                return true;
-            case R.id.settings_button:
-                Log.d(LOG_TAG, "Setting clicked!");
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 return true;
@@ -315,13 +293,7 @@ public class ShopListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        mAlarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                triggerTime,
-                repeatInterval,
-                pendingIntent);
-
-
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, repeatInterval, pendingIntent);
         mAlarmManager.cancel(pendingIntent);
     }
 

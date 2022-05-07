@@ -57,21 +57,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/price"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/add_to_cart"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/to_cart" />
+                android:layout_height="55dp"
+                android:layout_marginEnd="10dp"
+                android:drawableBottom="@drawable/icon_cart"
+                />
 
             <Button
                 android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/delete" />
+                android:layout_width="44dp"
+                android:layout_height="55dp"
+                android:drawableBottom="@drawable/icon_delete" />
         </LinearLayout>
 
 

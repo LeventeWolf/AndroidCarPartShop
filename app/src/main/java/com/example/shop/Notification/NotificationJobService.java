@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.Notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -13,7 +13,7 @@ public class NotificationJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         mNotificationHelper = new NotificationHelper(getApplicationContext());
-        mNotificationHelper.send("It's time to shop something! \\ (•◡•) /");
+        mNotificationHelper.send("Indulhat a vásárlás! (ツ)_/¯");
         return false;
     }
 

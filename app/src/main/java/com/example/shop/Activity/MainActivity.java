@@ -2,6 +2,7 @@ package com.example.shop.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -97,13 +98,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String userName = userNameET.getText().toString();
         String password = passwordET.getText().toString();
 
+        if (userName.isEmpty() || password.isEmpty()) {
+            popToast("Töltse ki a mezőket!", Toast.LENGTH_SHORT);
+            return;
+        }
+
         mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(this, task -> {
             if(task.isSuccessful()){
-                Log.d(LOG_TAG, "User loged in successfully");
                 startShopping();
             } else {
-                Log.d(LOG_TAG, "User log in fail");
-                Toast.makeText(MainActivity.this, "User log in fail: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                popToast("Hibás felhasználónév vag jelszó!", Toast.LENGTH_SHORT);
             }
         });
     }
@@ -111,20 +115,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void startShopping() {
         Intent intent = new Intent(this, ShopListActivity.class);
         startActivity(intent);
+        popToast("Sikeres bejelentkezés!");
     }
 
     public void loginWithGoogle(View view) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        popToast("Sikeres bejelentkezés!");
     }
 
     public void loginAsGuest(View view) {
         mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
             if(task.isSuccessful()){
-                Log.d(LOG_TAG, "Anonym user loged in successfully");
                 startShopping();
             } else {
-                Log.d(LOG_TAG, "Anonym user log in fail");
                 Toast.makeText(MainActivity.this, "User log in fail: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -163,4 +167,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
+
+    private void popToast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
+        toast.show();
+    }
+
+    private void popToast(String message, int duration) {
+        Toast toast = Toast.makeText(this, message, duration);
+        toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
+        toast.show();
+    }
+
 }

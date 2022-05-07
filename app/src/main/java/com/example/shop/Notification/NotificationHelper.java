@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.Notification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,6 +11,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.example.shop.Activity.ShopListActivity;
+import com.example.shop.R;
 
 
 public class NotificationHelper {
@@ -29,11 +30,9 @@ public class NotificationHelper {
     }
 
     private void createChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
-            return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
 
-        NotificationChannel channel = new NotificationChannel
-                (CHANNEL_ID, "Shop Notification", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "CarParts", NotificationManager.IMPORTANCE_HIGH);
 
         channel.enableLights(true);
         channel.setLightColor(Color.RED);
@@ -48,7 +47,7 @@ public class NotificationHelper {
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                .setContentTitle("Shop Application")
+                .setContentTitle("CarParts")
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_shopping_cart)
                 .setContentIntent(pendingIntent);

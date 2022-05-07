@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +20,7 @@ import com.example.shop.Model.CarPart;
 
 import java.util.ArrayList;
 
-public class ShoppingItemAdapter
-        extends RecyclerView.Adapter<ShoppingItemAdapter.ViewHolder>
-        implements Filterable {
-    // Member variables.
+public class ShoppingItemAdapter extends RecyclerView.Adapter<ShoppingItemAdapter.ViewHolder> implements Filterable {
     private ArrayList<CarPart> mShoppingData;
     private ArrayList<CarPart> mSoppingDataAll;
     private Context mContext;
@@ -35,20 +33,16 @@ public class ShoppingItemAdapter
     }
 
     @Override
-    public ShoppingItemAdapter.ViewHolder onCreateViewHolder(
-            ViewGroup parent, int viewType) {
+    public ShoppingItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext)
                 .inflate(R.layout.list_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ShoppingItemAdapter.ViewHolder holder, int position) {
-        // Get current sport.
         CarPart currentItem = mShoppingData.get(position);
 
-        // Populate the textviews with data.
         holder.bindTo(currentItem);
-
 
         if(holder.getAdapterPosition() > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_row);
@@ -58,19 +52,14 @@ public class ShoppingItemAdapter
     }
 
     @Override
-    public int getItemCount() {
-        return mShoppingData.size();
-    }
+    public int getItemCount() { return mShoppingData.size(); }
 
+    @Override
+    public Filter getFilter() {return shoppingFilter;}
 
     /**
      * RecycleView filter
      * **/
-    @Override
-    public Filter getFilter() {
-        return shoppingFilter;
-    }
-
     private Filter shoppingFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -103,7 +92,6 @@ public class ShoppingItemAdapter
     };
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        // Member Variables for the TextViews
         private TextView mTitleText;
         private TextView mInfoText;
         private TextView mPriceText;

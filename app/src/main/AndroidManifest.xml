@@ -15,7 +15,7 @@
             android:exported="false" />
 
         <service
-            android:name=".NotificationJobService"
+            android:name=".Notification.NotificationJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity android:name=".Activity.ShopListActivity" />
