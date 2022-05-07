@@ -33,67 +33,37 @@
     </string-array>
 
     <string-array name="shopping_item_names">
-        <item>Smart Phone</item>
-        <item>Tablet</item>
-        <item>Gaming PC</item>
-        <item>Oled TV</item>
-        <item>Kerékpár</item>
-        <item>Lego</item>
-        <item>Jelmez</item>
-        <item>Sport eszközök</item>
-        <item>Konyhai eszközök</item>
-        <item>Bútor</item>
+        <item>Féktárcsa</item>
+        <item>Hengerfej tömítés</item>
+        <item>Gyújtógyertya</item>
+        <item>Olajszűrő</item>
     </string-array>
 
     <string-array name="shopping_item_desc">
-        <item>Ez egy okos telefon!</item>
-        <item>Ez egy tablet!</item>
-        <item>Ez egy gamer pc!</item>
-        <item>Ez egy OLED TV!</item>
-        <item>Ez egy kerékpár!</item>
-        <item>Ez egy lego!</item>
-        <item>Ez egy jelmez!</item>
-        <item>Ezek sport eszközök!</item>
-        <item>Ezek konyhai eszküzök!</item>
-        <item>Ez egy bútor!</item>
+        <item>Féktárcsa D 251,2 x 10 mm, tele Magasság [mm]: 50, Tömeg [kg]: 7,43!</item>
+        <item>Fémlemez tömítés</item>
+        <item>Iridium középelektróda, Kulcsnyílás [mm]: 16, Menethossz [mm]: 19</item>
+        <item>Felcsavarható szűrő Magasság [mm]: 70, Menetméret: M20x1.5</item>
     </string-array>
 
     <array name="shopping_item_rates">
+        <item>5</item>
+        <item>5</item>
+        <item>4</item>
         <item>3.5</item>
-        <item>5</item>
-        <item>4</item>
-        <item>1.5</item>
-        <item>5</item>
-        <item>3</item>
-        <item>4.5</item>
-        <item>4</item>
-        <item>5</item>
-        <item>2.5</item>
     </array>
 
     <array name="shopping_item_images">
-        <item>@drawable/smart_phone</item>
-        <item>@drawable/tablet</item>
-        <item>@drawable/pc</item>
-        <item>@drawable/oled_tv</item>
-        <item>@drawable/bike</item>
-        <item>@drawable/lego</item>
-        <item>@drawable/custome</item>
-        <item>@drawable/sport_tools</item>
-        <item>@drawable/kitchen</item>
-        <item>@drawable/furniture</item>
+        <item>@drawable/fektarcsa</item>
+        <item>@drawable/hengerfej_tomites</item>
+        <item>@drawable/gyujtogyergya</item>
+        <item>@drawable/olajszuro</item>
     </array>
 
     <array name="shopping_item_price">
-        <item>100 Dv</item>
-        <item>150 Dv</item>
-        <item>500 Dv</item>
-        <item>300 Dv</item>
-        <item>180 Dv</item>
-        <item>70 Dv</item>
-        <item>20 Dv</item>
-        <item>30 Dv</item>
-        <item>15 Dv</item>
-        <item>90 Dv</item>
+        <item>6 990 Ft</item>
+        <item>1 750 Ft</item>
+        <item>2 115 Ft</item>
+        <item>5 430 Ft</item>
     </array>
 </resources>
