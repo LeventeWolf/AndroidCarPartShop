@@ -25,6 +25,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
+
 public class MainActivity
         extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<String> {
@@ -44,6 +46,8 @@ public class MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         userNameET = findViewById(R.id.editTextUserName);
         passwordET = findViewById(R.id.editTextPassword);
@@ -97,8 +101,6 @@ public class MainActivity
     public void login(View view) {
         String userName = userNameET.getText().toString();
         String password = passwordET.getText().toString();
-
-        // Log.i(LOG_TAG, "Bejelentkezett: " + userName + ", jelszó: " + password);
 
         mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(this, task -> {
             if(task.isSuccessful()){
