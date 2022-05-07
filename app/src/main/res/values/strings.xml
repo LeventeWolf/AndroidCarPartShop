@@ -54,10 +54,10 @@
     </array>
 
     <array name="shopping_item_images">
-        <item>@drawable/fektarcsa</item>
-        <item>@drawable/hengerfej_tomites</item>
-        <item>@drawable/gyujtogyergya</item>
-        <item>@drawable/olajszuro</item>
+        <item>@drawable/cp_fektarcsa</item>
+        <item>@drawable/cp_hengerfejl_tomites</item>
+        <item>@drawable/cp_gyujtogyertya</item>
+        <item>@drawable/cp_olajszuro</item>
     </array>
 
     <array name="shopping_item_price">

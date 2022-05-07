@@ -19,7 +19,7 @@
         android:layout_marginBottom="0dp"
         android:contentDescription="@string/land_bg"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/land_bg" />
+        app:srcCompat="@drawable/bg_main_land" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -81,7 +81,7 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginStart="232dp"
-            android:drawableLeft="@drawable/google_icon"
+            android:drawableLeft="@drawable/icon_google"
 
             android:onClick="loginWithGoogle"
 
@@ -91,7 +91,7 @@
             android:id="@+id/guestLoginButton2"
             android:layout_width="75dp"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/guest"
+            android:drawableLeft="@drawable/icon_guest"
             android:onClick="loginAsGuest"
             app:layout_constraintHorizontal_bias="0.709"
             app:layout_constraintStart_toEndOf="@+id/googleSignInButton"

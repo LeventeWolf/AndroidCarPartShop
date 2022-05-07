@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/bg_main" />
 
     <TextView
         android:id="@+id/textView"
@@ -88,7 +88,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginStart="232dp"
-            android:drawableLeft="@drawable/google_icon"
+            android:drawableLeft="@drawable/icon_google"
 
             android:onClick="loginWithGoogle"
 
@@ -101,7 +101,7 @@
             android:id="@+id/guestLoginButton"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:drawableLeft="@drawable/guest"
+            android:drawableLeft="@drawable/icon_guest"
             android:onClick="loginAsGuest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

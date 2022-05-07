@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/land_bg"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/land_bg"
+        app:srcCompat="@drawable/bg_main_land"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-94dp" />
 
