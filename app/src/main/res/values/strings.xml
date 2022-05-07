@@ -23,6 +23,7 @@
     <string name="delete">Törlés</string>
     <string name="bg_image">BG_IMAGE</string>
     <string name="bejelentkez_s">Bejelentkezés</string>
+    <string name="land_bg" />
 
     <string-array name="phone_labels">
         <item>Otthon</item>

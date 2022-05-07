@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,31 +8,96 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextPassword"
+
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:contentDescription="@string/land_bg"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/land_bg" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="329dp"
         android:ems="10"
+        app:backgroundTint="@color/black"
+        android:textColor="@color/black"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:layout_marginTop="10dp"
+        android:textColorHint="@color/black"
         tools:layout_editor_absoluteX="16dp" />
 
     <EditText
         android:id="@+id/editTextUserName"
-        android:layout_width="match_parent"
+        android:layout_width="700dp"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="274dp"
+        android:ems="10"
+        app:backgroundTint="@color/black"
+        android:textColor="@color/black"
         android:hint="@string/name"
+        android:textColorHint="@color/black"
         android:inputType="text" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="703dp"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:onClick="login"
-        android:layout_marginTop="20dp"
-        app:layout_constraintVertical_bias="0.078" />
-</LinearLayout>
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="185dp">
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="244dp"
+            android:layout_height="match_parent"
+            android:onClick="login"
+            android:text="@string/login"
+            app:layout_constraintVertical_bias="0.078" />
+
+        <Button
+            android:id="@+id/googleSignInButton2"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="232dp"
+            android:drawableLeft="@drawable/google_icon"
+
+            android:onClick="loginWithGoogle"
+
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/guestLoginButton2"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/guest"
+            android:onClick="loginAsGuest"
+            app:layout_constraintHorizontal_bias="0.709"
+            app:layout_constraintStart_toEndOf="@+id/googleSignInButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="OnClick" />
+    </LinearLayout>
+
+
+</RelativeLayout>

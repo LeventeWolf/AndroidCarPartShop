@@ -27,9 +27,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-public class MainActivity
-        extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = MainActivity.class.getName();
     private static final String PREF_KEY = MainActivity.class.getPackage().toString();
     private static final int RC_SIGN_IN = 123;
@@ -61,8 +59,6 @@ public class MainActivity
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-//        Button anonym = findViewById(R.id.guestLoginButton);
-//        new RandomAsyncTask(anonym).execute();
         getSupportLoaderManager().restartLoader(0, null, this);
         Log.i(LOG_TAG, "onCreate");
     }
@@ -88,11 +84,9 @@ public class MainActivity
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Sign in success, update UI with the signed-in user's information
                 Log.d(LOG_TAG, "signInWithCredential:success");
                 startShopping();
             } else {
-                // If sign in fails, display a message to the user.
                 Log.w(LOG_TAG, "signInWithCredential:failure", task.getException());
             }
         });
@@ -142,24 +136,6 @@ public class MainActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(LOG_TAG, "onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(LOG_TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(LOG_TAG, "onDestroy");
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
@@ -171,19 +147,6 @@ public class MainActivity
         Log.i(LOG_TAG, "onPause");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(LOG_TAG, "onRestart");
-    }
-
-
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
@@ -192,8 +155,7 @@ public class MainActivity
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        Button anonym = findViewById(R.id.guestLoginButton);
-        anonym.setText(data);
+
     }
 
     @Override
