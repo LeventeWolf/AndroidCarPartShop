@@ -10,6 +10,8 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.shop.Activity.ShopListActivity;
+
 
 public class NotificationHelper {
     private static final String CHANNEL_ID = "shop_notification_channel";

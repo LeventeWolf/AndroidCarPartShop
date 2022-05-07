@@ -1,6 +1,6 @@
-package com.example.shop;
+package com.example.shop.Model;
 
-public class ShoppingItem {
+public class CarPart {
     private String id;
     private String name;
     private String info;
@@ -9,7 +9,7 @@ public class ShoppingItem {
     private int imageResource;
     private int cartedCount;
 
-    public ShoppingItem(String name, String info, String price, float ratedInfo, int imageResource, int cartedCount) {
+    public CarPart(String name, String info, String price, float ratedInfo, int imageResource, int cartedCount) {
         this.name = name;
         this.info = info;
         this.price = price;
@@ -18,7 +18,7 @@ public class ShoppingItem {
         this.cartedCount = cartedCount;
     }
 
-    public ShoppingItem() {
+    public CarPart() {
     }
 
     public String getName() {

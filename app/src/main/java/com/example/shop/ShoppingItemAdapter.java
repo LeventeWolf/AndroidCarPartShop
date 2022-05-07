@@ -14,21 +14,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.example.shop.Activity.ShopListActivity;
+import com.example.shop.Model.CarPart;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 public class ShoppingItemAdapter
         extends RecyclerView.Adapter<ShoppingItemAdapter.ViewHolder>
         implements Filterable {
     // Member variables.
-    private ArrayList<ShoppingItem> mShoppingData;
-    private ArrayList<ShoppingItem> mSoppingDataAll;
+    private ArrayList<CarPart> mShoppingData;
+    private ArrayList<CarPart> mSoppingDataAll;
     private Context mContext;
     private int lastPosition = -1;
 
-    ShoppingItemAdapter(Context context, ArrayList<ShoppingItem> itemsData) {
+    public ShoppingItemAdapter(Context context, ArrayList<CarPart> itemsData) {
         this.mShoppingData = itemsData;
         this.mSoppingDataAll = itemsData;
         this.mContext = context;
@@ -44,7 +44,7 @@ public class ShoppingItemAdapter
     @Override
     public void onBindViewHolder(ShoppingItemAdapter.ViewHolder holder, int position) {
         // Get current sport.
-        ShoppingItem currentItem = mShoppingData.get(position);
+        CarPart currentItem = mShoppingData.get(position);
 
         // Populate the textviews with data.
         holder.bindTo(currentItem);
@@ -74,7 +74,7 @@ public class ShoppingItemAdapter
     private Filter shoppingFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<ShoppingItem> filteredList = new ArrayList<>();
+            ArrayList<CarPart> filteredList = new ArrayList<>();
             FilterResults results = new FilterResults();
 
             if(charSequence == null || charSequence.length() == 0) {
@@ -82,7 +82,7 @@ public class ShoppingItemAdapter
                 results.values = mSoppingDataAll;
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
-                for(ShoppingItem item : mSoppingDataAll) {
+                for(CarPart item : mSoppingDataAll) {
                     if(item.getName().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
@@ -121,7 +121,7 @@ public class ShoppingItemAdapter
             mPriceText = itemView.findViewById(R.id.price);
         }
 
-        void bindTo(ShoppingItem currentItem){
+        void bindTo(CarPart currentItem){
             mTitleText.setText(currentItem.getName());
             mInfoText.setText(currentItem.getInfo());
             mPriceText.setText(currentItem.getPrice());

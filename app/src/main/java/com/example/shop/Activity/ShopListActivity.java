@@ -1,10 +1,8 @@
-package com.example.shop;
+package com.example.shop.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,9 +29,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.shop.AlarmReceiver;
+import com.example.shop.Model.CarPart;
+import com.example.shop.NotificationHelper;
+import com.example.shop.NotificationJobService;
+import com.example.shop.R;
+import com.example.shop.ShoppingItemAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +42,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class ShopListActivity extends AppCompatActivity {
 
     // Member variables.
     private RecyclerView mRecyclerView;
-    private ArrayList<ShoppingItem> mItemsData;
+    private ArrayList<CarPart> mItemsData;
     private ShoppingItemAdapter mAdapter;
 
     private FirebaseFirestore mFirestore;
@@ -159,7 +159,7 @@ public class ShopListActivity extends AppCompatActivity {
         // Create the ArrayList of Sports objects with the titles and
         // information about each sport.
         for (int i = 0; i < itemsList.length; i++) {
-            mItems.add(new ShoppingItem(
+            mItems.add(new CarPart(
                  itemsList[i],
                  itemsInfo[i],
                  itemsPrice[i],
@@ -177,7 +177,7 @@ public class ShopListActivity extends AppCompatActivity {
         mItems.orderBy("cartedCount", Query.Direction.DESCENDING).limit(itemLimit).get()
               .addOnSuccessListener(queryDocumentSnapshots -> {
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                ShoppingItem item = document.toObject(ShoppingItem.class);
+                CarPart item = document.toObject(CarPart.class);
                 item.setId(document.getId());
                 mItemsData.add(item);
             }
@@ -192,7 +192,7 @@ public class ShopListActivity extends AppCompatActivity {
         });
     }
 
-    public void deleteItem(ShoppingItem item) {
+    public void deleteItem(CarPart item) {
         DocumentReference ref = mItems.document(item._getId());
         ref.delete()
             .addOnSuccessListener(success -> {
@@ -280,7 +280,7 @@ public class ShopListActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void updateAlertIcon(ShoppingItem item) {
+    public void updateAlertIcon(CarPart item) {
         cartItems = (cartItems + 1);
         if (0 < cartItems) {
             countTextView.setText(String.valueOf(cartItems));

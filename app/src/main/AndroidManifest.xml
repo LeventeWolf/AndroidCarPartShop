@@ -18,9 +18,9 @@
             android:name=".NotificationJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
-        <activity android:name=".ShopListActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.ShopListActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

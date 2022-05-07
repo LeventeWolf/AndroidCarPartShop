@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,7 +8,6 @@ import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.shop.R;
+import com.example.shop.RandomLoader;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
