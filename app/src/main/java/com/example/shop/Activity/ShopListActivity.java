@@ -70,11 +70,11 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
     private CollectionReference mItems;
 
     private NotificationHelper mNotificationHelper;
-    private AlarmManager mAlarmManager;
     private JobScheduler mJobScheduler;
-    private SharedPreferences preferences;
 
     private boolean viewRow = true;
+
+    // Lifecycle
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -104,12 +104,16 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         this.registerReceiver(powerReceiver, filter);
 
         mNotificationHelper = new NotificationHelper(this);
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mJobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        // setAlarmManager();
         setJobScheduler();
 
         getSupportLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(powerReceiver);
     }
 
     BroadcastReceiver powerReceiver = new BroadcastReceiver() {
@@ -133,6 +137,10 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         }
     };
 
+    /**
+     * CRUD - Create
+     * Initialize data from predefined resources
+     */
     private void initItemsFromResources() {
         String[] itemsList = getResources().getStringArray(R.array.shopping_item_names);
         String[] itemsInfo = getResources().getStringArray(R.array.shopping_item_desc);
@@ -156,6 +164,7 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
     }
 
     /**
+     * CRUD - Read
      * Initialize data from firebase, ordered by name in ascending order.
      */
     private void initItemsFromFirebase() {
@@ -179,6 +188,34 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
                 });
     }
 
+    /**
+     * CRUD - Update
+     * Update cart badge icon <br>
+     * Send notification
+     * @param item The item that we place to the cart
+     */
+    public void handleAddToCart(CarPart item) {
+        cartItems += 1;
+
+        // Update badge
+        updateBadge(item);
+
+        // Send notification
+        mNotificationHelper.send(item.getName() + " a kosárba helyezve!");
+    }
+
+    private void updateBadge(CarPart item) {
+        countTextView.setText(String.valueOf(cartItems));
+
+        redCircle.setVisibility((cartItems > 0) ? VISIBLE : GONE);
+
+        mItems.document(item._getId()).update("cartedCount", item.getCartedCount() + 1)
+                .addOnFailureListener(fail -> Toast.makeText(this, item.getName() + " badge hiba!", Toast.LENGTH_LONG).show());
+    }
+
+    /**
+     * CRUD - Delete
+     */
     public void deleteItem(CarPart item) {
         DocumentReference ref = mItems.document(item._getId());
         ref.delete().addOnSuccessListener(success -> popToast(item.getName() + " sikeresen törölve!"))
@@ -193,6 +230,9 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         toast.getView().setBackgroundColor(Color.parseColor("#D7FF6464"));
         toast.show();
     }
+
+
+    // Menu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -266,36 +306,6 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
             }
         });
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    /**
-     * Update cart badge icon <br>
-     * Send notification
-     * @param item The item that we place to the cart
-     */
-    public void handleAddToCart(CarPart item) {
-        cartItems += 1;
-
-        // Update badge
-        updateBadge(item);
-
-        // Send notification
-        mNotificationHelper.send(item.getName() + " a kosárba helyezve!");
-    }
-
-    private void updateBadge(CarPart item) {
-        countTextView.setText(String.valueOf(cartItems));
-
-        redCircle.setVisibility((cartItems > 0) ? VISIBLE : GONE);
-
-        mItems.document(item._getId()).update("cartedCount", item.getCartedCount() + 1)
-            .addOnFailureListener(fail -> Toast.makeText(this, item.getName() + " badge hiba!", Toast.LENGTH_LONG).show());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(powerReceiver);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
