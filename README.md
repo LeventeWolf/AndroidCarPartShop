@@ -1,5 +1,8 @@
 # AndroidCarPartShop
  ha bármi kérdésed van discordom: Wolf#6953
+ 
+## Install
+Töltsd le a 'CarPartsShop.apk'-t majd futtasd az Android eszközön. (Emulatoron lehet nem megy:))
 ## Képernyőképek
 
 
