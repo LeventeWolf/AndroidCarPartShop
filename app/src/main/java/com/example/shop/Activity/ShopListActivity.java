@@ -164,7 +164,7 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
     }
 
     /**
-     * CRUD - Read
+     * CRUD - Read & Complex Query
      * Initialize data from firebase, ordered by name in ascending order.
      */
     private void initItemsFromFirebase() {
@@ -231,6 +231,26 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         toast.show();
     }
 
+    /**
+     * Complex Query
+     */
+    private void orderItemsByCartedAmount() {
+        mItemsData.clear();
+        mItems.orderBy("cartedCount", Query.Direction.DESCENDING).limit(itemLimit).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Log.d(LOG_TAG, "Ordering data!");
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        CarPart item = document.toObject(CarPart.class);
+                        item.setId(document.getId());
+                        mItemsData.add(item);
+                    }
+
+                    popToast("Rendezve!");
+
+                    // Notify the adapter of the change.
+                    mAdapter.notifyDataSetChanged();
+                });
+    }
 
     // Menu
 
@@ -271,6 +291,7 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
                 return true;
             case R.id.cart:
                 Log.d(LOG_TAG, "Cart clicked!");
+                orderItemsByCartedAmount();
                 return true;
             case R.id.view_selector:
                 if (viewRow) {
