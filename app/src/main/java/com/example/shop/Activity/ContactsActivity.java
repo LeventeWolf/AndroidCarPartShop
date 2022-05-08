@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.shop.R;
@@ -34,22 +35,29 @@ public class ContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
         listView = (ListView) findViewById(R.id.contactsListView);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            List<String> contacts = getContacts();
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
-
-            Animation animation;
-            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.contacts_animation);
-            animation.setDuration(500);
-            listView.startAnimation(animation);
-
-            listView.setAdapter(arrayAdapter);
-        } else {
-            popToast("Please grant contact permission!:)", Toast.LENGTH_LONG);
-        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 1);
 
         Log.i(LOG_TAG, "onCreate");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                List<String> contacts = getContacts();
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
+
+                Animation animation;
+                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.contacts_animation);
+                animation.setDuration(500);
+                listView.startAnimation(animation);
+
+                listView.setAdapter(arrayAdapter);
+            } else {
+                popToast("Please grant contact permission!:)", Toast.LENGTH_LONG);
+            }
+        }
     }
 
     private List<String> getContacts() {
@@ -76,7 +84,7 @@ public class ContactsActivity extends AppCompatActivity {
                 }
             }
         }
-        if(cur!=null){
+        if (cur != null) {
             cur.close();
         }
 
