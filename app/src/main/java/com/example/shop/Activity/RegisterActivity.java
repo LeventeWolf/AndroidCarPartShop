@@ -17,12 +17,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.shop.R;
-import com.example.shop.RandomLoader;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class RegisterActivity extends AppCompatActivity  {
     private static final String LOG_TAG = RegisterActivity.class.getName();
     private static final String PREF_KEY = RegisterActivity.class.getPackage().toString();
 
@@ -105,22 +104,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderManager
     private void startShopping(/* registered used class */) {
         Intent intent = new Intent(this, ShopListActivity.class);
         startActivity(intent);
-    }
-
-    @NonNull
-    @Override
-    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RandomLoader(this);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<String> loader) {
-
     }
 
 

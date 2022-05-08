@@ -9,14 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 
 import com.example.shop.R;
-import com.example.shop.RandomLoader;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,7 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
     private static final String PREF_KEY = MainActivity.class.getPackage().toString();
     private static final int RC_SIGN_IN = 123;
@@ -61,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        getSupportLoaderManager().restartLoader(0, null, this);
         Log.i(LOG_TAG, "onCreate");
     }
 
@@ -121,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void loginWithGoogle(View view) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        popToast("Sikeres bejelentkezés!");
     }
 
     public void loginAsGuest(View view) {
@@ -152,21 +146,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.i(LOG_TAG, "onPause");
     }
 
-    @NonNull
-    @Override
-    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RandomLoader(this);
-    }
 
-    @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<String> loader) {
-
-    }
 
     private void popToast(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);

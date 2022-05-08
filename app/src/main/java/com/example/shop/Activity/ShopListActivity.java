@@ -1,13 +1,16 @@
 package com.example.shop.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
@@ -20,7 +23,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,11 +32,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shop.AlarmReceiver;
 import com.example.shop.Model.CarPart;
 import com.example.shop.Notification.NotificationHelper;
 import com.example.shop.Notification.NotificationJobService;
 import com.example.shop.R;
+import com.example.shop.Service.CarPartService;
 import com.example.shop.ShoppingItemAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class ShopListActivity extends AppCompatActivity {
+public class ShopListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>  {
     private static final String LOG_TAG = ShopListActivity.class.getName();
     private FirebaseUser user;
 
@@ -94,21 +96,20 @@ public class ShopListActivity extends AppCompatActivity {
 
         mFirestore = FirebaseFirestore.getInstance();
         mItems = mFirestore.collection("Items");
-        queryData();
+        initItemsFromFirebase();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         this.registerReceiver(powerReceiver, filter);
 
-        // Intent intent = new Intent("CUSTOM_MOBALKFEJL_BROADCAST");
-        // LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
         mNotificationHelper = new NotificationHelper(this);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mJobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         // setAlarmManager();
         setJobScheduler();
+
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     BroadcastReceiver powerReceiver = new BroadcastReceiver() {
@@ -122,17 +123,17 @@ public class ShopListActivity extends AppCompatActivity {
             switch (intentAction) {
                 case Intent.ACTION_POWER_CONNECTED:
                     itemLimit = 10;
-                    queryData();
+                    initItemsFromFirebase();
                     break;
                 case Intent.ACTION_POWER_DISCONNECTED:
                     itemLimit = 5;
-                    queryData();
+                    initItemsFromFirebase();
                     break;
             }
         }
     };
 
-    private void initializeData() {
+    private void initItemsFromResources() {
         String[] itemsList = getResources().getStringArray(R.array.shopping_item_names);
         String[] itemsInfo = getResources().getStringArray(R.array.shopping_item_desc);
         String[] itemsPrice = getResources().getStringArray(R.array.shopping_item_price);
@@ -154,24 +155,28 @@ public class ShopListActivity extends AppCompatActivity {
         popToast("Termékek újratöltve!");
     }
 
-    private void queryData() {
+    /**
+     * Initialize data from firebase, ordered by name in ascending order.
+     */
+    private void initItemsFromFirebase() {
         mItemsData.clear();
-        mItems.orderBy("cartedCount", Query.Direction.DESCENDING).limit(itemLimit).get()
+        mItems.orderBy("name", Query.Direction.ASCENDING).limit(itemLimit).get()
               .addOnSuccessListener(queryDocumentSnapshots -> {
-            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                CarPart item = document.toObject(CarPart.class);
-                item.setId(document.getId());
-                mItemsData.add(item);
-            }
+                  Log.d(LOG_TAG, "Init data!");
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        CarPart item = document.toObject(CarPart.class);
+                        item.setId(document.getId());
+                        mItemsData.add(item);
+                    }
 
-            if (mItemsData.size() == 0) {
-                initializeData();
-                queryData();
-            }
+                    if (mItemsData.size() == 0) {
+                        initItemsFromResources();
+                        initItemsFromFirebase();
+                    }
 
-            // Notify the adapter of the change.
-            mAdapter.notifyDataSetChanged();
-        });
+                    // Notify the adapter of the change.
+                    mAdapter.notifyDataSetChanged();
+                });
     }
 
     public void deleteItem(CarPart item) {
@@ -179,7 +184,7 @@ public class ShopListActivity extends AppCompatActivity {
         ref.delete().addOnSuccessListener(success -> popToast(item.getName() + " sikeresen törölve!"))
                     .addOnFailureListener(fail -> popToast("HIBA " + item.getName() + " törlése során!"));
 
-        queryData();
+        initItemsFromFirebase();
         mNotificationHelper.cancel();
     }
 
@@ -258,43 +263,34 @@ public class ShopListActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void updateAlertIcon(CarPart item) {
-        cartItems = (cartItems + 1);
-        if (0 < cartItems) {
-            countTextView.setText(String.valueOf(cartItems));
-        } else {
-            countTextView.setText("");
-        }
+    /**
+     * Update cart badge icon <br>
+     * Send notification
+     * @param item The item that we place to the cart
+     */
+    public void handleAddToCart(CarPart item) {
+        cartItems += 1;
+
+        // Update badge
+        updateBadge(item);
+
+        // Send notification
+        mNotificationHelper.send(item.getName() + " a kosárba helyezve!");
+    }
+
+    private void updateBadge(CarPart item) {
+        countTextView.setText(String.valueOf(cartItems));
 
         redCircle.setVisibility((cartItems > 0) ? VISIBLE : GONE);
 
         mItems.document(item._getId()).update("cartedCount", item.getCartedCount() + 1)
-            .addOnFailureListener(fail -> {
-                Toast.makeText(this, "Item " + item._getId() + " cannot be changed.", Toast.LENGTH_LONG).show();
-            });
-
-        mNotificationHelper.send(item.getName());
-        queryData();
-
-
+            .addOnFailureListener(fail -> Toast.makeText(this, item.getName() + " badge hiba!", Toast.LENGTH_LONG).show());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(powerReceiver);
-
-    }
-
-    private void setAlarmManager() {
-        long repeatInterval = 60000; // AlarmManager.INTERVAL_FIFTEEN_MINUTES;
-        long triggerTime = SystemClock.elapsedRealtime() + repeatInterval;
-
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, repeatInterval, pendingIntent);
-        mAlarmManager.cancel(pendingIntent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -312,9 +308,25 @@ public class ShopListActivity extends AppCompatActivity {
 
         JobInfo jobInfo = builder.build();
         mJobScheduler.schedule(jobInfo);
+    }
 
-        // mJobScheduler.cancel(0);
-        // mJobScheduler.cancelAll();
+
+    // AsyncTaskLoader
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        return new CarPartService(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        popToast(data);
+        Log.d(LOG_TAG, "AsyncTaskLoader Finished!");
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
 }
