@@ -101,7 +101,6 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        this.registerReceiver(powerReceiver, filter);
 
         mNotificationHelper = new NotificationHelper(this);
         mJobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
@@ -110,32 +109,6 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
         getSupportLoaderManager().restartLoader(0, null, this);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(powerReceiver);
-    }
-
-    BroadcastReceiver powerReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String intentAction = intent.getAction();
-
-            if (intentAction == null)
-                return;
-
-            switch (intentAction) {
-                case Intent.ACTION_POWER_CONNECTED:
-                    itemLimit = 10;
-                    initItemsFromFirebase();
-                    break;
-                case Intent.ACTION_POWER_DISCONNECTED:
-                    itemLimit = 5;
-                    initItemsFromFirebase();
-                    break;
-            }
-        }
-    };
 
     /**
      * CRUD - Create
@@ -288,6 +261,7 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
                 Log.d(LOG_TAG, "Contacts clicked!");
                 Intent intent = new Intent(this, ContactsActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             case R.id.cart:
                 Log.d(LOG_TAG, "Cart clicked!");

@@ -22,7 +22,7 @@ public class CarPartService extends AsyncTaskLoader<String>{
     @Nullable
     @Override
     public String loadInBackground() {
-        int ms = 3000;
+        int ms = 10000;
 
         try {
             Thread.sleep(ms);
@@ -30,6 +30,6 @@ public class CarPartService extends AsyncTaskLoader<String>{
             e.printStackTrace();
         }
 
-        return "Popping the toast after: " + ms + "s!";
+        return "A pirítós elkészült " + ms + " ms után! :)";
     }
 }

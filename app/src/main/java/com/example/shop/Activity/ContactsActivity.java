@@ -95,6 +95,7 @@ public class ContactsActivity extends AppCompatActivity {
     public void navigate_to_shopping_list(View view) {
         Intent intent = new Intent(this, ShopListActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void popToast(String message) {
