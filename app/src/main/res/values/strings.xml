@@ -66,4 +66,19 @@
         <item>2 115 Ft</item>
         <item>5 430 Ft</item>
     </array>
+    <string name="title_activity_contacts">ContactsActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="contacts">Contacts</string>
+    <string name="kijelentkez_s">Kijelentkezés</string>
+    <string name="views">views</string>
+    <string name="cart">Cart</string>
+    <string name="search">Search</string>
+    <string name="vissza">Vissza</string>
 </resources>

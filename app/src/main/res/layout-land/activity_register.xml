@@ -8,18 +8,6 @@
     android:orientation="vertical"
     tools:context=".Activity.RegisterActivity">
 
-    <!-- Background image   -->
-
-    <!-- Email -->
-
-    <!-- Username -->
-
-    <!-- Password -->
-
-    <!-- Password again -->
-
-    <!-- Register & Cancel   -->
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"

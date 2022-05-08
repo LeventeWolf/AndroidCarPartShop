@@ -5,14 +5,14 @@
         android:id="@+id/search_bar"
         app:showAsAction="always"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="android.widget.SearchView"
         >
     </item>
     <item
         android:id="@+id/cart"
         app:showAsAction="always"
-        android:title="Cart"
+        android:title="@string/cart"
         android:icon="@drawable/ic_shopping_cart"
         app:actionLayout="@layout/custom_menu_item"
         >
@@ -20,15 +20,22 @@
     <item
         android:id="@+id/view_selector"
         app:showAsAction="always"
-        android:title="views"
+        android:title="@string/views"
         android:icon="@drawable/ic_view_grid"
         >
+    </item>
+    <item
+        android:id="@+id/contacts"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/contacts"
+        android:orderInCategory="2">
     </item>
     <item
         android:id="@+id/log_out_button"
         app:showAsAction="never"
         android:icon="@drawable/ic_exit"
-        android:title="Kijelentkezés"
+        android:title="@string/kijelentkez_s"
         android:orderInCategory="2">
     </item>
 </menu>

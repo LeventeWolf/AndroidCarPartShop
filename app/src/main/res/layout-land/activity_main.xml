@@ -21,6 +21,25 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/bg_main_land" />
 
+    <Button
+        android:id="@+id/registerButton2"
+        android:layout_width="408dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="158dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginBottom="1dp"
+        android:onClick="register"
+        android:text="@string/registration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.89" />
+
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="700dp"

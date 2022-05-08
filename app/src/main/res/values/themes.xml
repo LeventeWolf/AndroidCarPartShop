@@ -17,4 +17,10 @@
     <style name="ItemDetailText" parent="TextAppearance.AppCompat.Subhead"/>
     <style name="ItemTitle" parent="TextAppearance.AppCompat.Headline"/>
     <style name="ItemDetailTitle" parent="TextAppearance.AppCompat.Headline"/>
+    <style name="Theme.Shop.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Shop.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Shop.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

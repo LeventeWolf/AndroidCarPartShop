@@ -224,6 +224,11 @@ public class ShopListActivity extends AppCompatActivity implements LoaderManager
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 return true;
+            case R.id.contacts:
+                Log.d(LOG_TAG, "Contacts clicked!");
+                Intent intent = new Intent(this, ContactsActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.cart:
                 Log.d(LOG_TAG, "Cart clicked!");
                 return true;
